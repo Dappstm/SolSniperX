@@ -32,7 +32,7 @@ async def set_wallet(update: Update, context: ContextTypes.DEFAULT_TYPE):
 def is_valid_base58_key(msg):
     try:
         decoded = base58.b58decode(msg)
-        return len(decoded) in [32, 64]  # Phantom keys are usually 32 bytes
+        return len(decoded) in [32, 64]
     except Exception:
         return False
 
@@ -42,20 +42,19 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if uid not in user_sessions:
         user_sessions[uid] = UserSession()
 
-    # Check for private key formats
-    if len(msg.split()) in [12, 24]:  # Mnemonic
+    if len(msg.split()) in [12, 24]:
         user_sessions[uid].private_key = msg
-        await update.message.reply_text("Mnemonic saved.")
+        await update.message.reply_text("✅ Mnemonic saved.")
     elif is_valid_base58_key(msg):
         user_sessions[uid].private_key = msg
-        await update.message.reply_text("Base58 private key saved.")
+        await update.message.reply_text("✅ Base58 private key saved.")
     else:
         try:
             amount = float(msg)
             user_sessions[uid].sol_amount = amount
-            await update.message.reply_text(f"Amount set: {amount} SOL per trade.")
+            await update.message.reply_text(f"✅ Amount set: {amount} SOL per trade.")
         except:
-            await update.message.reply_text("Invalid input.")
+            await update.message.reply_text("⚠️ Invalid input.")
 
 async def set_amount(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Send amount per trade (e.g., 0.01):")
@@ -64,28 +63,28 @@ async def snipe_on(update: Update, context: ContextTypes.DEFAULT_TYPE):
     uid = update.message.chat_id
     session = user_sessions[uid]
     start_sniping_for_user(uid, session)
-    await update.message.reply_text("Sniping started... Monitoring wallets.")
+    await update.message.reply_text("🚀 Sniping started... Monitoring wallets.")
 
 async def snipe_off(update: Update, context: ContextTypes.DEFAULT_TYPE):
     stop_sniping_for_user(update.message.chat_id)
-    await update.message.reply_text("Sniping paused.")
+    await update.message.reply_text("🛑 Sniping paused.")
 
 async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
     session = user_sessions.get(update.message.chat_id)
     if session:
-        await update.message.reply_text(f"Wallet: [hidden]\nAmount: {session.sol_amount} SOL\nStatus: {'ON' if session.sniping else 'OFF'}")
+        await update.message.reply_text(
+            f"📊 Wallet: [hidden]\n💰 Amount: {session.sol_amount} SOL\n🧠 Status: {'ON' if session.sniping else 'OFF'}"
+        )
     else:
-        await update.message.reply_text("No session found.")
+        await update.message.reply_text("⚠️ No session found.")
 
 def start_bot():
     app = ApplicationBuilder().token(CONFIG["telegram_token"]).build()
 
-# Error handler
     async def error_handler(update, context):
         print(f"Error while handling update: {context.error}")
 
     app.add_error_handler(error_handler)
-
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("setwallet", set_wallet))
     app.add_handler(CommandHandler("setamount", set_amount))
@@ -93,4 +92,5 @@ def start_bot():
     app.add_handler(CommandHandler("snipeoff", snipe_off))
     app.add_handler(CommandHandler("status", status))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
+
     app.run_polling()
