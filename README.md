@@ -9,6 +9,4 @@
 
 ## Setup
 
-1. Replace `YOUR_BOT_TOKEN` in `config.py`.
 2. Add Solana burner wallet PKs via Telegram `/setwallet`.
-3. Run on VPS with:
