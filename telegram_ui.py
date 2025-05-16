@@ -84,7 +84,7 @@ def start_bot():
     async def error_handler(update, context):
         print(f"Error while handling update: {context.error}")
 
-    app.add_error_handler(error_handler
+    app.add_error_handler(error_handler)
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("setwallet", set_wallet))
