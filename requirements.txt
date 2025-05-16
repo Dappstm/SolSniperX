@@ -1,0 +1,6 @@
+python-telegram-bot==20.0
+solana==0.30.1
+requests
+cachetools
+construct
+construct-typing
