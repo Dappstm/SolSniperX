@@ -12,7 +12,7 @@ class WalletSniper:
 
     def fetch_wallet_buys(self, wallet):
         try:
-            url = f"https://api.pump.fun/user/{wallet}"
+            url = f"https://frontend-api-v3.pump.fun/coins/latest{wallet}"
             resp = requests.get(url, timeout=10).json()
             return resp.get("purchases", [])
         except Exception as e:
