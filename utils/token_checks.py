@@ -1,7 +1,7 @@
 import requests
 
 def is_token_rug(token_address):
-    url = f"https://api.pump.fun/token/{token_address}"
+    url = f"https://frontend-api-v3.pump.fun/coins/latest{token_address}"
     resp = requests.get(url).json()
     liquidity = resp.get("liquidity", 0)
     holders = resp.get("holders", 0)
@@ -10,6 +10,6 @@ def is_token_rug(token_address):
     return False
 
 def get_holder_count(token_address):
-    url = f"https://api.pump.fun/token/{token_address}"
+    url = f"https://frontend-api-v3.pump.fun/coins/latest{token_address}"
     resp = requests.get(url).json()
     return resp.get("holders", 0)
