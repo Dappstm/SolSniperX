@@ -1,7 +1,8 @@
+# Solsnipery — Telegram-Based Solana Memecoin Sniping Bot
+
 ![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-
-# Solsnipery — Telegram-Based Solana Memecoin Sniping Bot
+![Status](https://img.shields.io/badge/status-Active-success)
 
 ## Features
 - Telegram-first UI — public users can interact using commands
